@@ -1,28 +1,162 @@
 return {
-  { -- Highlight, edit, and navigate code
+  { 'nvim-treesitter/playground', cmd = 'TSPlaygroundToggle' },
+
+  {
+    'mfussenegger/nvim-treehopper',
+    keys = { { 'm', mode = { 'o', 'x' } } },
+    config = function()
+      vim.cmd [[
+				omap     <silent> m :<C-U>lua require('tsht').nodes()<cr>
+				xnoremap <silent> m :lua require('tsht').nodes()<cr>
+			]]
+    end,
+  },
+
+  {
+    'nvim-treesitter/nvim-treesitter-context',
+    event = 'BufReadPre',
+    config = true,
+  },
+
+  {
     'nvim-treesitter/nvim-treesitter',
-    build = ':TSUpdate',
-    main = 'nvim-treesitter.configs', -- Sets main module to use for opts
-    -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
+    -- dependencies = { "HiPhish/nvim-ts-rainbow2" },
+    dependencies = {
+      'windwp/nvim-ts-autotag',
+    },
+    --- @type TSConfig
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
-      -- Autoinstall languages that are not installed
-      auto_install = true,
+      ensure_installed = {
+        'cmake',
+        -- "comment",
+        'diff',
+        'dockerfile',
+        'gitattributes',
+        'gitcommit',
+        'gitignore',
+        'git_rebase',
+        'graphql',
+        'haskell',
+        'http',
+        'json',
+        'jsonc',
+        'json5',
+        'lua',
+        'luadoc',
+        'luap',
+        'markdown',
+        'markdown_inline',
+        'make',
+        'meson',
+        'ninja',
+        'nix',
+        'norg',
+        'org',
+        'proto',
+        'python',
+        'query',
+        'regex',
+        'scss',
+        'sql',
+        'teal',
+        'tsx',
+        'typescript',
+        'vala',
+        'vhs',
+        'vim',
+        'vimdoc',
+        'vue',
+        'wgsl',
+        'yaml',
+        'zig',
+      },
+      autopairs = { enable = true },
+      autotag = { enable = true },
       highlight = {
         enable = true,
-        -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-        --  If you are experiencing weird indenting issues, add the language to
-        --  the list of additional_vim_regex_highlighting and disabled languages for indent.
         additional_vim_regex_highlighting = { 'ruby' },
       },
-      indent = { enable = true, disable = { 'ruby' } },
+      matchup = {
+        enable = true,
+      },
+      playground = {
+        enable = true,
+        persist_queries = true, -- Whether the query persists across vim sessions
+      },
+      query_linter = {
+        enable = true,
+        use_virtual_text = true,
+        lint_events = { 'BufWrite', 'CursorHold' },
+      },
+      rainbow = {
+        enable = true,
+        disable = { 'lua' },
+      },
+      refactor = {
+        smart_rename = {
+          enable = true,
+          client = {
+            smart_rename = '<leader>cr',
+          },
+        },
+        navigation = {
+          enable = true,
+          keymaps = {
+            -- goto_definition = "gd",
+            -- list_definitions = "gnD",
+            -- list_definitions_toc = "gO",
+            -- goto_next_usage = "<a-*>",
+            -- goto_previous_usage = "<a-#>",
+          },
+        },
+      },
+      textobjects = {
+        select = {
+          enable = true,
+          lookahead = true,
+          keymaps = {
+            -- You can use the capture groups defined in textobjects.scm
+            ['af'] = '@function.outer',
+            ['if'] = '@function.inner',
+            ['ac'] = '@class.outer',
+            ['ic'] = '@class.inner',
+            ['al'] = '@loop.outer',
+            ['il'] = '@loop.inner',
+            ['as'] = { query = '@scope', query_group = 'locals', desc = 'Select language scope' },
+          },
+        },
+        move = {
+          enable = true,
+          set_jumps = true, -- whether to set jumps in the jumplist
+          goto_next_start = { [']f'] = '@function.outer', [']c'] = '@class.outer' },
+          goto_next_end = { [']F'] = '@function.outer', [']C'] = '@class.outer' },
+          goto_previous_start = { ['[f'] = '@function.outer', ['[c'] = '@class.outer' },
+          goto_previous_end = { ['[F'] = '@function.outer', ['[C'] = '@class.outer' },
+        },
+        lsp_interop = {
+          enable = true,
+          peek_definition_code = {
+            ['gD'] = '@function.outer',
+          },
+        },
+        swap = {
+          enable = true,
+          swap_next = {
+            ['<leader>a'] = '@parameter.inner',
+          },
+          swap_previous = {
+            ['<leader>A'] = '@parameter.inner',
+          },
+        },
+      },
+      textsubjects = {
+        enable = true,
+        keymaps = {
+          ['.'] = 'textsubjects-smart',
+          [';'] = 'textsubjects-container-outer',
+        },
+      },
     },
-    -- There are additional nvim-treesitter modules that you can use to interact
-    -- with nvim-treesitter. You should go explore a few and see what interests you:
-    --
-    --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-    --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-    --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
   },
 }
 -- vim: ts=2 sts=2 sw=2 et
