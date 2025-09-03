@@ -238,6 +238,35 @@ return {
             },
           },
         },
+
+        omnisharp = {
+          -- cmd = { ... },
+          filetypes = {
+            'cs',
+            'vb',
+            'csproj',
+            'sln',
+            'slnx',
+            'props',
+            'csx',
+            'targets',
+            'tproj',
+            'slngen',
+            'fproj',
+          },
+          -- capabilities = {},
+          settings = {
+            RoslynExtensionsOptions = {
+              EnableAnalyzersSupport = true,
+              EnableDecompilationSupport = true,
+              EnableImportCompletion = true,
+            },
+            FormattingOptions = {
+              EnableEditorConfigSupport = true,
+              OrganizeImportsOnFormat = true,
+            },
+          },
+        },
       }
 
       -- Ensure the servers and tools above are installed
