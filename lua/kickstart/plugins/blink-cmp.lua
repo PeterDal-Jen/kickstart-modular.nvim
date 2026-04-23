@@ -1,18 +1,6 @@
 ---@module 'lazy'
 ---@type LazySpec
 return {
-<<<<<<< HEAD
-  'saghen/blink.cmp',
-  dependencies = {
-    'rafamadriz/friendly-snippets',
-  },
-  version = '*',
-
-  ---@module 'blink.cmp'
-  ---@type blink.cmp.Config
-  opts = {
-
-=======
   { -- Autocompletion
     'saghen/blink.cmp',
     event = 'VimEnter',
